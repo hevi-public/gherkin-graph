@@ -41,6 +41,10 @@ public class Step {
         return 9 - type.ordinal();
     }
 
+    public int getLevel() {
+        return type.ordinal();
+    }
+
     public String getGroup() {
         if (type != null) {
             return Integer.toString(type.ordinal());

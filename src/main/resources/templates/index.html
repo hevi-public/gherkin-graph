@@ -56,7 +56,7 @@
             var options = {
                 nodes: {
                     shape: 'dot',
-                    size: 16,
+                    size: 6,
                     scaling: {
                         label: {
                             enabled: true,
@@ -65,7 +65,7 @@
                         customScalingFunction: function (min, max, total, value) {
                             return value * value * 0.05;
                         },
-                        min: 1,
+                        min: 2,
                         max: 5
                     },
                     font: {
@@ -75,7 +75,8 @@
                     }
                 },
                 edges: {
-                    arrows: 'to'
+                    arrows: 'to',
+                    length: 300
                 },
                 groups: {
                     "0": { color: '#4FFBDF', borderWidth:0, mass: 1 },
@@ -91,20 +92,30 @@
                     "SCENARIO": { color: '#ff721c', borderWidth: 0, mass: 2 },
                     "FEATURE": { color: '#b8ff3f', borderWidth: 0, mass: 2 }
                 },
-                physics: {
-                    forceAtlas2Based: {
-                        gravitationalConstant: -20,
-                        centralGravity: 0.0003,
-                        springLength: 180,
-                        springConstant: 0.5
-                    },
-                    maxVelocity: 146,
-                    solver: 'forceAtlas2Based',
-                    timestep: 0.35,
-                    stabilization: {iterations: 150}
-                },
+                // physics: {
+                //     forceAtlas2Based: {
+                //         gravitationalConstant: -20,
+                //         centralGravity: 0.0003,
+                //         springLength: 180,
+                //         springConstant: 0.5,
+                //         avoidOverlap: 0.5
+                //     },
+                //     maxVelocity: 146,
+                //     solver: 'forceAtlas2Based',
+                //     timestep: 0.35,
+                //     stabilization: {iterations: 150}
+                // },
                 layout: {
-                    randomSeed: 0
+                    randomSeed: 0,
+                    hierarchical: {
+                        direction: "LR",
+                        nodeSpacing: 200,
+                        treeSpacing: 400,
+                        levelSeparation: 300,
+                        blockShifting: true,
+                        edgeMinimization: false,
+                        parentCentralization: false
+                    }
                 }
             };
 
