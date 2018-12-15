@@ -23,19 +23,26 @@ public class GraphController {
         Messages.Feature feature = GherkinFileReader.getFeature();
         feature.getChildrenList().forEach(child -> {
             Messages.Scenario scenario = child.getScenario();
+
+            Step newScenario = null;
+            Optional<Step> scenarioAlreadyCreated = responseSteps.stream().filter(s -> s.getLabel().equals(scenario.getName())).findFirst();
+            if (scenarioAlreadyCreated.isPresent()) {
+                newScenario = scenarioAlreadyCreated.get();
+            } else {
+                newScenario = new Step(scenario.getName());
+            }
+
             List<Messages.Step> steps = scenario.getStepsList();
 
-            //steps.stream().map(step -> new Step(step)).collect(Collectors.toList());
-            //Optional<Step> first = responseSteps.stream().filter(s -> s.getLabel().equals(step.getKeyword() + step.getText())).findFirst();
-
             List<Step> stepsForEdges = steps.stream().map(step -> {
-                Optional<Step> first = responseSteps.stream().filter(s -> s.getLabel().equals(step.getKeyword() + step.getText())).findFirst();
-                if (first.isPresent()) {
-                    return first.get();
+                Optional<Step> stepAlreadyCreated = responseSteps.stream().filter(s -> s.getLabel().equals(step.getKeyword() + step.getText())).findFirst();
+                if (stepAlreadyCreated.isPresent()) {
+                    return stepAlreadyCreated.get();
                 } else {
                     return new Step(step);
                 }
             }).collect(Collectors.toList());
+            stepsForEdges.add(0, newScenario);
 
             List<Edge> edges = new ArrayList<>();
 
@@ -45,7 +52,7 @@ public class GraphController {
             }
 
             List<Step> stepsToAdd = stepsForEdges.stream().filter(step -> {
-                return !responseSteps.stream().filter(s -> s.getLabel().equals(step.getLabel())).findFirst().isPresent();
+                return !responseSteps.stream().anyMatch(s -> s.getLabel().equals(step.getLabel()));
             }).collect(Collectors.toList());
 
             responseSteps.addAll(stepsToAdd);

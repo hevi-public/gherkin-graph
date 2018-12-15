@@ -81,8 +81,14 @@
                     "6": { color: '#F9F871', borderWidth:0, mass: 1.7 },
                     "7": { color: '#008F7A', borderWidth:0, mass: 1.8 },
                     "8": { color: '#CB963D', borderWidth:0, mass: 1.9 },
-                    "9": { color: '#5e5e5e', borderWidth:0, mass: 1 }
-
+                    "9": { color: '#5e5e5e', borderWidth:0, mass: 1 },
+                    "SCENARIO": {
+                        color: '#ff721c', borderWidth: 0, mass: 4, scaling: {
+                            customScalingFunction: function (min, max, total, value) {
+                                return 5;
+                            }
+                        }
+                    }
                 },
                 physics: {
                     forceAtlas2Based: {
