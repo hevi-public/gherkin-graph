@@ -1,9 +1,11 @@
 package hu.hevi.gherkingraph;
 
 import io.cucumber.messages.Messages;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 public class Step {
 

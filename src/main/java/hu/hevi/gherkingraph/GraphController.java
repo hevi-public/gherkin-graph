@@ -66,20 +66,6 @@ public class GraphController {
 
         return new GraphResponse(responseSteps, responseEdges);
     }
-
-    @Value
-    private class GraphResponse {
-
-        private List<Step> nodes;
-        private List<Edge> edges;
-    }
-
-    @Value
-    private class Edge {
-
-        private int from;
-        private int to;
-    }
 }
 
 
