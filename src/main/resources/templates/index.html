@@ -58,14 +58,20 @@
                     shape: 'dot',
                     size: 16,
                     scaling: {
+                        label: {
+                            enabled: true,
+                            max: 16
+                        },
                         customScalingFunction: function (min, max, total, value) {
-                            return value;
+                            return value * value * 0.05;
                         },
                         min: 1,
                         max: 5
                     },
                     font: {
-                        color: '#dddddd'
+                        face: 'Optima',
+                        color: '#dae3f1',
+                        size: 6
                     }
                 },
                 edges: {
@@ -82,20 +88,8 @@
                     "7": { color: '#008F7A', borderWidth:0, mass: 1.8 },
                     "8": { color: '#CB963D', borderWidth:0, mass: 1.9 },
                     "9": { color: '#5e5e5e', borderWidth:0, mass: 1 },
-                    "SCENARIO": {
-                        color: '#ff721c', borderWidth: 0, mass: 4, scaling: {
-                            customScalingFunction: function (min, max, total, value) {
-                                return 5;
-                            }
-                        }
-                    },
-                    "FEATURE": {
-                        color: '#b8ff3f', borderWidth: 0, mass: 8, scaling: {
-                            customScalingFunction: function (min, max, total, value) {
-                                return 7;
-                            }
-                        }
-                    }
+                    "SCENARIO": { color: '#ff721c', borderWidth: 0, mass: 2 },
+                    "FEATURE": { color: '#b8ff3f', borderWidth: 0, mass: 2 }
                 },
                 physics: {
                     forceAtlas2Based: {

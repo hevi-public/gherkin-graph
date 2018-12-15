@@ -11,48 +11,44 @@ public class Step {
     private static final String UNKNOWN_GROUP = "UNKNOWN";
     public static final String FEATURE_GROUP = "FEATURE";
     public static final String SCENARIO_GROUP = "SCENARIO";
-    protected static int idSequence = 0;
+
+    public static final int FEATURE_VALUE = 4;
+    public static final int SCENARIO_VALUE = 3;
+    private static final int UNKNOWN_VALUE = 1;
+
+    private static int idSequence = 0;
 
     @Getter
     private int id;
     @Getter
     private String label;
     @Getter
-    private Keyword keyword;
-    private String type;
-
-    public Step(String scenarioName) {
-        this.id = Step.idSequence++;
-        this.label = scenarioName;
-    }
+    private Type type;
 
     public Step(String scenarioName, String type) {
         this.id = Step.idSequence++;
         this.label = scenarioName;
-        this.type = type;
+        this.type = Type.valueOf(type.toUpperCase().trim());
     }
 
     public Step(Messages.Step ofStep) {
         this.id = Step.idSequence++;
         this.label = ofStep.getKeyword() + ofStep.getText();
-        this.keyword = Keyword.valueOf(ofStep.getKeyword().toUpperCase().trim());
+        this.type = Type.valueOf(ofStep.getKeyword().toUpperCase().trim());
     }
 
     public int getValue() {
-        if (keyword == Keyword.GIVEN) {
-            return 2;
-        }
-        return 1;
+        return 9 - type.ordinal();
     }
 
     public String getGroup() {
-        if (keyword != null) {
-            return Integer.toString(keyword.ordinal());
+        if (type != null) {
+            return Integer.toString(type.ordinal());
         }
         switch (type) {
-            case "FEATURE":
+            case FEATURE:
                 return FEATURE_GROUP;
-            case "SCENARIO":
+            case SCENARIO:
                 return SCENARIO_GROUP;
             default:
                 return UNKNOWN_GROUP;
@@ -60,7 +56,7 @@ public class Step {
 
     }
 
-    private enum Keyword {
-        GIVEN, WHEN, THEN, AND, BUT
+    private enum Type {
+        FEATURE, SCENARIO, GIVEN, WHEN, THEN, AND, BUT
     }
 }
