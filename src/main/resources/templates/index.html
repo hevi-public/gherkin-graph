@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>GraphMindNote</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style type="text/css">
+        #mynetwork {
+            width: 1330px;
+            height: 920px;
+            border: 1px solid lightgray;
+            background-color: #222222;
+        }
+
+        html {
+            background-color: #222222;
+        }
+
+        body {
+            color: #d3d3d3;
+            font: 12pt arial;
+            background-color: #222222;
+            height: 100%;
+        }
+
+        #content {
+            background-color: #222222;
+        }
+    </style>
+    
+    <script>
+        function generateGraph() {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/api/steps');
+            xhr.send(null);
+
+            xhr.onreadystatechange = function () {
+                var DONE = 4;
+                var OK = 200;
+                if (xhr.readyState === DONE) {
+                    if (xhr.status === OK) {
+                        init(JSON.parse(xhr.responseText));
+                    } else {
+                        console.log('Error: ' + xhr.status);
+                    }
+                }
+            };
+
+            document.getElementById('command-line-status').text = 'I think...';
+        }
+
+        function init(graph) {
+
+            nodesCache = new vis.DataSet(graph.nodes);
+            edgesCache = new vis.DataSet(graph.edges);
+
+            var container = document.getElementById('mynetwork');
+            var options = {
+                nodes: {
+                    shape: 'dot',
+                    size: 16,
+                    scaling: {
+                        customScalingFunction: function (min, max, total, value) {
+                            return value;
+                        },
+                        min: 1,
+                        max: 5
+                    },
+                    font: {
+                        color: '#dddddd'
+                    }
+                },
+                edges: {
+                    arrows: 'to'
+                },
+                physics: {
+                    forceAtlas2Based: {
+                        gravitationalConstant: -20,
+                        centralGravity: 0.003,
+                        springLength: 90,
+                        springConstant: 0.5
+                    },
+                    maxVelocity: 146,
+                    solver: 'forceAtlas2Based',
+                    timestep: 0.35,
+                    stabilization: {iterations: 150}
+                },
+                layout: {
+                    randomSeed: 0
+                }
+            };
+
+            var data = {
+                nodes: nodesCache,
+                edges: edgesCache,
+                options: options
+            };
+
+            network = new vis.Network(container, data, options);
+        }
+    </script>
+
+    <script type="text/javascript" src="vis.js"></script>
+    <link href="vis-network.min.css" rel="stylesheet" type="text/css"/>
+
+    <script src="jquery-3.1.1.min.js"></script>
+
+</head>
+
+<body onload="generateGraph()">
+    <div>
+        <div id="content">
+            <div id="mynetwork"></div>
+        </div>
+    </div>
+</body>
+</html>

@@ -12,20 +12,6 @@ import java.util.stream.Collectors;
 public class GherkinGraphApplication {
 
 	public static void main(String[] args) {
-		Messages.Feature feature = GherkinFileReader.getFeature();
-
-
-		Messages.Scenario scenario = feature.getChildren(0).getScenario();
-		List<Messages.Step> steps = scenario.getStepsList();
-
-		List<Step> mappedSteps = steps.stream().map(step -> new Step(step)).collect(Collectors.toList());
-
-		List<Step> rootSteps = new ArrayList<>();
-
-
-
-
-
 		SpringApplication.run(GherkinGraphApplication.class, args);
 	}
 }

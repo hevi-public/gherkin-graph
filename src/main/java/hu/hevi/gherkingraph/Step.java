@@ -3,8 +3,6 @@ package hu.hevi.gherkingraph;
 import io.cucumber.messages.Messages;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import java.util.ArrayList;
-import java.util.List;
 
 @EqualsAndHashCode
 public class Step {
@@ -14,16 +12,26 @@ public class Step {
     @Getter
     private int id;
     @Getter
-    private String text;
+    private String label;
     @Getter
-    private List<Step> children = new ArrayList<>();
+    private Keyword keyword;
+    @Getter
+    private String group;
 
     public Step(Messages.Step ofStep) {
-        this.text = ofStep.getKeyword() + ofStep.getText();
         this.id = Step.idSequence++;
+        this.label = ofStep.getKeyword() + ofStep.getText();
+        this.keyword = Keyword.valueOf(ofStep.getKeyword().toUpperCase().trim());
     }
 
-    public void addChild(Step step) {
-        children.add(step);
+    public int getValue() {
+        if (keyword == Keyword.GIVEN) {
+            return 2;
+        }
+        return 1;
+    }
+
+    private enum Keyword {
+        GIVEN, WHEN, THEN, AND, BUT
     }
 }
