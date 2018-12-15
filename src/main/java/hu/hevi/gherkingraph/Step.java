@@ -12,10 +12,6 @@ public class Step {
     public static final String FEATURE_GROUP = "FEATURE";
     public static final String SCENARIO_GROUP = "SCENARIO";
 
-    public static final int FEATURE_VALUE = 4;
-    public static final int SCENARIO_VALUE = 3;
-    private static final int UNKNOWN_VALUE = 1;
-
     private static int idSequence = 0;
 
     @Getter
@@ -46,15 +42,15 @@ public class Step {
     }
 
     public String getGroup() {
-        if (type != null) {
-            return Integer.toString(type.ordinal());
-        }
         switch (type) {
             case FEATURE:
                 return FEATURE_GROUP;
             case SCENARIO:
                 return SCENARIO_GROUP;
             default:
+                if (type != null) {
+                    return Integer.toString(type.ordinal());
+                }
                 return UNKNOWN_GROUP;
         }
 
