@@ -6,9 +6,6 @@
 
     <style type="text/css">
         #mynetwork {
-            width: 1330px;
-            height: 920px;
-            border: 1px solid lightgray;
             background-color: #222222;
         }
 
@@ -27,6 +24,8 @@
             background-color: #222222;
         }
     </style>
+
+    <script src="jquery-3.1.1.min.js"></script>
     
     <script>
         function generateGraph() {
@@ -48,6 +47,9 @@
         }
 
         function init(graph) {
+
+            $("#mynetwork").height($(document).height());
+            $("#mynetwork").width($(document).width());
 
             nodesCache = new vis.DataSet(graph.nodes);
             edgesCache = new vis.DataSet(graph.edges);
@@ -123,8 +125,6 @@
 
     <script type="text/javascript" src="vis.js"></script>
     <link href="vis-network.min.css" rel="stylesheet" type="text/css"/>
-
-    <script src="jquery-3.1.1.min.js"></script>
 
 </head>
 
