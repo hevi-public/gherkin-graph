@@ -29,7 +29,7 @@ public class Step {
 
     public Step(Messages.Step ofStep) {
         this.id = Step.idSequence++;
-        this.label = ofStep.getKeyword() + ofStep.getText();
+        this.label = ofStep.getKeyword().toUpperCase() + ofStep.getText();
         this.type = Type.valueOf(ofStep.getKeyword().toUpperCase().trim());
     }
 

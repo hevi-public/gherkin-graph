@@ -39,7 +39,7 @@ public class GraphController {
             List<Messages.Step> steps = scenario.getStepsList();
 
             List<Step> stepsForEdges = steps.stream().map(step -> {
-                Optional<Step> stepAlreadyCreated = responseSteps.stream().filter(s -> s.getLabel().equals(step.getKeyword() + step.getText())).findFirst();
+                Optional<Step> stepAlreadyCreated = responseSteps.stream().filter(s -> s.getLabel().equals(step.getKeyword().toUpperCase() + step.getText())).findFirst();
                 if (stepAlreadyCreated.isPresent()) {
                     return stepAlreadyCreated.get();
                 } else {
