@@ -7,3 +7,15 @@ Feature: Google Searching
     Then results for "panda" are shown
     And the related results include "Panda Express"
     But the related results do not include "pandemonium"
+
+  Scenario: Simple Google search
+    Given a web browser is on the Google page
+    When the search phrase "panda" is entered
+    Then results for "panda" are shown
+
+  Scenario: Simple Google search
+    Given a web browser is on the Google page
+    When the search phrase "panda" is entered
+    Then results for "panda" are shown
+    And the related results include "Kungfu Panda"
+    But the related results do not include "pandemonium"

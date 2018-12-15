@@ -16,22 +16,28 @@ public class GraphController {
 
     @GetMapping(path = "/steps")
     public GraphResponse getSteps() {
+        List<Step> responseSteps = new ArrayList<>();
+        List<Edge> responseEdges = new ArrayList<>();
+
         Messages.Feature feature = GherkinFileReader.getFeature();
+        feature.getChildrenList().forEach(child -> {
+            Messages.Scenario scenario = child.getScenario();
+            List<Messages.Step> steps = scenario.getStepsList();
 
+            List<Step> mappedSteps = steps.stream().map(step -> new Step(step)).collect(Collectors.toList());
 
-        Messages.Scenario scenario = feature.getChildren(0).getScenario();
-        List<Messages.Step> steps = scenario.getStepsList();
+            List<Edge> edges = new ArrayList<>();
 
-        List<Step> mappedSteps = steps.stream().map(step -> new Step(step)).collect(Collectors.toList());
+            for (int i = 1; i < mappedSteps.size(); i++) {
+                Edge edge = new Edge(mappedSteps.get(i - 1).getId(), mappedSteps.get(i).getId());
+                edges.add(edge);
+            }
 
-        List<Edge> edges = new ArrayList<>();
+            responseSteps.addAll(mappedSteps);
+            responseEdges.addAll(edges);
+        });
 
-        for (int i = 1; i < mappedSteps.size(); i++) {
-            Edge edge = new Edge(mappedSteps.get(i - 1).getId(), mappedSteps.get(i).getId());
-            edges.add(edge);
-        }
-
-        return new GraphResponse(mappedSteps, edges);
+        return new GraphResponse(responseSteps, responseEdges);
     }
 
     @Value

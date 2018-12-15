@@ -15,8 +15,6 @@ public class Step {
     private String label;
     @Getter
     private Keyword keyword;
-    @Getter
-    private String group;
 
     public Step(Messages.Step ofStep) {
         this.id = Step.idSequence++;
@@ -29,6 +27,10 @@ public class Step {
             return 2;
         }
         return 1;
+    }
+
+    public int getGroup() {
+        return keyword.ordinal();
     }
 
     private enum Keyword {
