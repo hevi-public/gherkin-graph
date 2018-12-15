@@ -7,6 +7,9 @@ import lombok.Getter;
 @EqualsAndHashCode
 public class Step {
 
+
+    private static final String UNKNOWN_GROUP = "UNKNOWN";
+    public static final String FEATURE_GROUP = "FEATURE";
     public static final String SCENARIO_GROUP = "SCENARIO";
     protected static int idSequence = 0;
 
@@ -16,10 +19,17 @@ public class Step {
     private String label;
     @Getter
     private Keyword keyword;
+    private String type;
 
     public Step(String scenarioName) {
         this.id = Step.idSequence++;
         this.label = scenarioName;
+    }
+
+    public Step(String scenarioName, String type) {
+        this.id = Step.idSequence++;
+        this.label = scenarioName;
+        this.type = type;
     }
 
     public Step(Messages.Step ofStep) {
@@ -38,9 +48,16 @@ public class Step {
     public String getGroup() {
         if (keyword != null) {
             return Integer.toString(keyword.ordinal());
-        } else {
-            return SCENARIO_GROUP;
         }
+        switch (type) {
+            case "FEATURE":
+                return FEATURE_GROUP;
+            case "SCENARIO":
+                return SCENARIO_GROUP;
+            default:
+                return UNKNOWN_GROUP;
+        }
+
     }
 
     private enum Keyword {
