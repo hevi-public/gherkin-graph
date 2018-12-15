@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,16 +25,30 @@ public class GraphController {
             Messages.Scenario scenario = child.getScenario();
             List<Messages.Step> steps = scenario.getStepsList();
 
-            List<Step> mappedSteps = steps.stream().map(step -> new Step(step)).collect(Collectors.toList());
+            //steps.stream().map(step -> new Step(step)).collect(Collectors.toList());
+            //Optional<Step> first = responseSteps.stream().filter(s -> s.getLabel().equals(step.getKeyword() + step.getText())).findFirst();
+
+            List<Step> stepsForEdges = steps.stream().map(step -> {
+                Optional<Step> first = responseSteps.stream().filter(s -> s.getLabel().equals(step.getKeyword() + step.getText())).findFirst();
+                if (first.isPresent()) {
+                    return first.get();
+                } else {
+                    return new Step(step);
+                }
+            }).collect(Collectors.toList());
 
             List<Edge> edges = new ArrayList<>();
 
-            for (int i = 1; i < mappedSteps.size(); i++) {
-                Edge edge = new Edge(mappedSteps.get(i - 1).getId(), mappedSteps.get(i).getId());
+            for (int i = 1; i < stepsForEdges.size(); i++) {
+                Edge edge = new Edge(stepsForEdges.get(i - 1).getId(), stepsForEdges.get(i).getId());
                 edges.add(edge);
             }
 
-            responseSteps.addAll(mappedSteps);
+            List<Step> stepsToAdd = stepsForEdges.stream().filter(step -> {
+                return !responseSteps.stream().filter(s -> s.getLabel().equals(step.getLabel())).findFirst().isPresent();
+            }).collect(Collectors.toList());
+
+            responseSteps.addAll(stepsToAdd);
             responseEdges.addAll(edges);
         });
 

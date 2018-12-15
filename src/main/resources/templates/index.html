@@ -45,8 +45,6 @@
                     }
                 }
             };
-
-            document.getElementById('command-line-status').text = 'I think...';
         }
 
         function init(graph) {
@@ -89,8 +87,8 @@
                 physics: {
                     forceAtlas2Based: {
                         gravitationalConstant: -20,
-                        centralGravity: 0.003,
-                        springLength: 90,
+                        centralGravity: 0.0003,
+                        springLength: 180,
                         springConstant: 0.5
                     },
                     maxVelocity: 146,

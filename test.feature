@@ -19,3 +19,7 @@ Feature: Google Searching
     Then results for "panda" are shown
     And the related results include "Kungfu Panda"
     But the related results do not include "pandemonium"
+
+  Scenario: Simple Google search
+    Given a web browser is not on the Google page
+    Then there is no search input
