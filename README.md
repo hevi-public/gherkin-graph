@@ -1,3 +1,9 @@
+### Building and running
+
+`mvn clean package`
+
+`java -jar -Dfeature.location=/your/path/to/features,/multiple/with/comma -Dserver.port=8080 target/gherkin-graph-0.0.1-SNAPSHOT.jar`
+
 
 ### Screenshots
 
