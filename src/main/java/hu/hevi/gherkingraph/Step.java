@@ -3,6 +3,9 @@ package hu.hevi.gherkingraph;
 import io.cucumber.messages.Messages;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +26,7 @@ public class Step {
     @Getter
     private Type type;
     @Getter
-    private Integer scenarioId;
+    private List<Integer> scenarioIds = new ArrayList<>();
 
     /**
      * When called with SCENARIO_GROUP, then scenarioId is set to this.id instead of supplied parameter
@@ -37,9 +40,11 @@ public class Step {
         this.label = scenarioName;
         this.type = Type.valueOf(type.toUpperCase().trim());
         if (SCENARIO_GROUP.equals(type)) {
-            this.scenarioId = this.id;
+            this.scenarioIds.add(this.id);
         } else {
-            this.scenarioId = scenarioId;
+            if (scenarioId != null) {
+                this.scenarioIds.add(scenarioId);
+            }
         }
     }
 
@@ -47,7 +52,17 @@ public class Step {
         this.id = Step.idSequence++;
         this.label = ofStep.getKeyword().toUpperCase() + ofStep.getText();
         this.type = Type.valueOf(ofStep.getKeyword().toUpperCase().trim());
-        this.scenarioId = scenarioId;
+        if (scenarioId != null) {
+            this.scenarioIds.add(scenarioId);
+        }
+    }
+
+    public void addScenarioId(int scenarioId) {
+        this.scenarioIds.add(scenarioId);
+    }
+
+    public void addScenarioIds(List<Integer> scenarioIds) {
+        this.scenarioIds.addAll(scenarioIds);
     }
 
     public int getValue() {

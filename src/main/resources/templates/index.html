@@ -139,7 +139,14 @@
                 if (selectedNode.type === "SCENARIO") {
                     var notSelectedScenarioIds = nodesCache.get({
                         filter: function (item) {
-                            return (item.scenarioId !== selectedNode.scenarioId);
+                            for (var k = 0; k < selectedNode.scenarioIds.length; k++) {
+                                for (var j = 0; j < item.scenarioIds.length; j++) {
+                                    if (item.scenarioIds[j] !== selectedNode.scenarioIds[k]) {
+                                        return true
+                                    }
+                                }
+                            }
+                            return false;
                         }
                     });
 
@@ -151,24 +158,32 @@
                         nodesCache.update(notSelected);
                     });
 
-                    var selectedScenarioIds = nodesCache.get({
+                    var selectedScenarios = nodesCache.get({
                         filter: function (item) {
-                            return (item.scenarioId === selectedNode.scenarioId);
+                            for(var k = 0; k < selectedNode.scenarioIds.length; k++) {
+                                for (var j = 0; j < item.scenarioIds.length; j++) {
+                                    if (item.scenarioIds[j] === selectedNode.scenarioIds[k]) {
+                                        return true
+                                    }
+                                }
+                            }
+                            return false;
                         }
-                    }).map(function(item) {
-                        item.selected = true;
-                        return item.id;
                     });
 
-                    selectedScenarioIds.forEach(function (value, index) {
-                       var selected = nodesCache.get([selectedScenarioIds[index].id])[0];
-                       selected.group = selected.originalGroup;
+                    selectedScenarios.forEach(function (value, index) {
+                       var selected = value;
+                       if (selected.originalGroup != undefined) {
+                           selected.group = selected.originalGroup;
+                       }
 
                        nodesCache.update(selected);
                     });
 
                     network.setData({nodes: nodesCache, edges: edgesCache});
-                    network.setSelection({nodes: selectedScenarioIds});
+                    network.setSelection({nodes: selectedScenarios.map(function (item) {
+                            return item.id;
+                        })});
                     network.redraw();
                 }
 
