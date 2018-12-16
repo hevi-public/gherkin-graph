@@ -15,9 +15,12 @@ public class SpringIntegrationTest {
 
     protected ResponseEntity<GraphResponse> response;
 
+    protected String currentLocationParam;
+
     @Before
     public void setUp() {
         response = null;
+        currentLocationParam = null;
     }
 
 }
