@@ -139,50 +139,49 @@
                 var selectedNodeId = network.getSelection().nodes[0];
                 var selectedNode = nodesCache.get(selectedNodeId);
 
-                if (selectedNode.type === "SCENARIO") {
-                    var notSelectedScenarioIds = nodesCache.get({
-                        filter: function (item) {
-                            for (var k = 0; k < selectedNode.scenarioIds.length; k++) {
-                                for (var j = 0; j < item.scenarioIds.length; j++) {
-                                    if (item.scenarioIds[j] !== selectedNode.scenarioIds[k]) {
-                                        return true
-                                    }
+                var notSelectedScenarioIds = nodesCache.get({
+                    filter: function (item) {
+                        for (var k = 0; k < selectedNode.scenarioIds.length; k++) {
+                            for (var j = 0; j < item.scenarioIds.length; j++) {
+                                if (item.scenarioIds[j] !== selectedNode.scenarioIds[k]) {
+                                    return true
                                 }
                             }
-                            return false;
                         }
-                    });
+                        return false;
+                    }
+                });
 
-                    notSelectedScenarioIds.forEach(function (value, index) {
-                        var notSelected = nodesCache.get([notSelectedScenarioIds[index].id])[0];
-                        notSelected.originalGroup = notSelected.group;
-                        notSelected.group = "NOT_SELECTED";
+                notSelectedScenarioIds.forEach(function (value, index) {
+                    var notSelected = nodesCache.get([notSelectedScenarioIds[index].id])[0];
+                    notSelected.originalGroup = notSelected.group;
+                    notSelected.group = "NOT_SELECTED";
 
-                        nodesCache.update(notSelected);
-                    });
+                    nodesCache.update(notSelected);
+                });
 
-                    var selectedScenarios = nodesCache.get({
-                        filter: function (item) {
-                            for(var k = 0; k < selectedNode.scenarioIds.length; k++) {
-                                for (var j = 0; j < item.scenarioIds.length; j++) {
-                                    if (item.scenarioIds[j] === selectedNode.scenarioIds[k]) {
-                                        return true
-                                    }
+                var selectedScenarios = nodesCache.get({
+                    filter: function (item) {
+                        for(var k = 0; k < selectedNode.scenarioIds.length; k++) {
+                            for (var j = 0; j < item.scenarioIds.length; j++) {
+                                if (item.scenarioIds[j] === selectedNode.scenarioIds[k]) {
+                                    return true
                                 }
                             }
-                            return false;
                         }
-                    });
+                        return false;
+                    }
+                });
 
-                    selectedScenarios.forEach(function (value, index) {
-                       var selected = value;
-                       if (selected.originalGroup != undefined) {
-                           selected.group = selected.originalGroup;
-                       }
+                selectedScenarios.forEach(function (value, index) {
+                   var selected = value;
+                   if (selected.originalGroup != undefined) {
+                       selected.group = selected.originalGroup;
+                   }
 
-                       nodesCache.update(selected);
-                    });
-                }
+                   nodesCache.update(selected);
+                });
+
 
             });
 
