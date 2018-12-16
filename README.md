@@ -9,6 +9,7 @@ Gherkin graph takes Cucumber feature files and displays them in a graph for bett
 `java -jar -Dfeature.location=/your/path/to/features,/multiple/with/comma -Dserver.port=8080 target/gherkin-graph-0.0.1-SNAPSHOT.jar`
 
 To run with the test features of this project (replace {project} with the path you've cloned this project to):
+
 `java -jar -Dfeature.location={project}/src/test/resources/features -Dserver.port=8080 target/gherkin-graph-0.0.1-SNAPSHOT.jar`
 
 ### Screenshots
