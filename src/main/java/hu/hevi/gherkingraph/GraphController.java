@@ -58,6 +58,7 @@ public class GraphController {
                 } else {
                     newScenario = new Step(scenario.getName(), Step.SCENARIO_GROUP, 0);
                 }
+                featureNode.addScenarioId(newScenario.getId());
 
                 List<Messages.Step> steps = scenario.getStepsList();
 

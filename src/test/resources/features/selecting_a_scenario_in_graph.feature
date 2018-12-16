@@ -4,3 +4,8 @@ Feature: steps are highlighted when a scenario is selected in the graph
     When the user selects a scenario
     Then the nodes are highlighted
     And the edges are highlighted
+
+  Scenario: user clicks out of a selected scenario
+    Given graph with a selected scenario
+    When the user deselects a scenario
+    Then the nodes are highlighted as when initialised

@@ -41,6 +41,8 @@ public class Step {
         this.type = Type.valueOf(type.toUpperCase().trim());
         if (SCENARIO_GROUP.equals(type)) {
             this.scenarioIds.add(this.id);
+        } else if (FEATURE_GROUP.equals(type)) {
+            // do nothing, we'll add the scenarioIds later when processing them
         } else {
             if (scenarioId != null) {
                 this.scenarioIds.add(scenarioId);
