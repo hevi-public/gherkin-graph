@@ -83,7 +83,10 @@
                 },
                 edges: {
                     arrows: 'to',
-                    length: 300
+                    length: 300,
+                    color: {
+                        inherit: 'to'
+                    }
                 },
                 groups: {
                     "0": { color: '#37ac9a', borderWidth:0, mass: 1 },
@@ -106,8 +109,8 @@
                         direction: "LR",
                         nodeSpacing: 700,
                         treeSpacing: 900,
-                        levelSeparation: 500,
-                        blockShifting: true,
+                        levelSeparation: 600,
+                        blockShifting: false,
                         edgeMinimization: false,
                         parentCentralization: false
                     }
