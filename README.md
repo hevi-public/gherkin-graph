@@ -1,3 +1,7 @@
+### What's this
+
+Gherkin graph takes Cucumber feature files and displays them in a graph for better visual understanding. 
+
 ### Building and running
 
 `mvn clean package`
@@ -20,5 +24,4 @@ Step selected
 
 http://visjs.org/
 
-Test examples from: 
-https://automationpanda.com/2017/01/27/bdd-101-gherkin-by-example/
+jQuery
