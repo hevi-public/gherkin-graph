@@ -104,9 +104,9 @@
                     randomSeed: 0,
                     hierarchical: {
                         direction: "LR",
-                        nodeSpacing: 400,
-                        treeSpacing: 500,
-                        levelSeparation: 400,
+                        nodeSpacing: 700,
+                        treeSpacing: 900,
+                        levelSeparation: 500,
                         blockShifting: true,
                         edgeMinimization: false,
                         parentCentralization: false
@@ -179,12 +179,6 @@
 
                        nodesCache.update(selected);
                     });
-
-                    network.setData({nodes: nodesCache, edges: edgesCache});
-                    network.setSelection({nodes: selectedScenarios.map(function (item) {
-                            return item.id;
-                        })});
-                    network.redraw();
                 }
 
             });
