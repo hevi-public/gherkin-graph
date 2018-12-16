@@ -45,7 +45,7 @@ public class GraphController {
 
         fileNames.stream().forEach(f-> {
             Messages.Feature feature = GherkinFileReader.getFeature(singletonList(f));
-            Step featureNode = new Step(feature.getName(), Step.FEATURE_GROUP);
+            Step featureNode = new Step(feature.getName(), Step.FEATURE_GROUP, null);
             responseSteps.add(featureNode);
 
             feature.getChildrenList().forEach(featureChild -> {
@@ -56,17 +56,18 @@ public class GraphController {
                 if (scenarioAlreadyCreated.isPresent()) {
                     newScenario = scenarioAlreadyCreated.get();
                 } else {
-                    newScenario = new Step(scenario.getName(), Step.SCENARIO_GROUP);
+                    newScenario = new Step(scenario.getName(), Step.SCENARIO_GROUP, 0);
                 }
 
                 List<Messages.Step> steps = scenario.getStepsList();
 
+                Integer scenarioId = newScenario.getScenarioId();
                 List<Step> stepsForEdges = steps.stream().map(step -> {
                     Optional<Step> stepAlreadyCreated = responseSteps.stream().filter(s -> s.getLabel().equals(step.getKeyword().toUpperCase() + step.getText())).findFirst();
                     if (stepAlreadyCreated.isPresent()) {
                         return stepAlreadyCreated.get();
                     } else {
-                        return new Step(step);
+                        return new Step(step, scenarioId);
                     }
                 }).collect(Collectors.toList());
                 stepsForEdges.add(0, newScenario);

@@ -97,7 +97,8 @@
                     "8": { color: '#a57a32', borderWidth:0, mass: 1.9 },
                     "9": { color: '#475969', borderWidth:0, mass: 1 },
                     "SCENARIO": { color: '#77219a', borderWidth: 0, mass: 2 },
-                    "FEATURE": { color: '#68992e', borderWidth: 0, mass: 2 }
+                    "FEATURE": { color: '#68992e', borderWidth: 0, mass: 2 },
+                    "NOT_SELECTED": { color: '#757379', borderWidth: 0, mass: 2 },
                 },
                 layout: {
                     randomSeed: 0,
@@ -120,6 +121,73 @@
             };
 
             network = new vis.Network(container, data, options);
+
+            network.on("selectNode", function (params) {
+
+                var allNodes = nodesCache.get();
+                for (var i = 0; i < allNodes.length; i++) {
+                    var resetNode = allNodes[i];
+                    if (resetNode.originalGroup != undefined) {
+                        resetNode.group = resetNode.originalGroup;
+                    }
+                    nodesCache.update(resetNode);
+                }
+
+                var selectedNodeId = network.getSelection().nodes[0];
+                var selectedNode = nodesCache.get(selectedNodeId);
+
+                if (selectedNode.type === "SCENARIO") {
+                    var notSelectedScenarioIds = nodesCache.get({
+                        filter: function (item) {
+                            return (item.scenarioId !== selectedNode.scenarioId);
+                        }
+                    });
+
+                    notSelectedScenarioIds.forEach(function (value, index) {
+                        var notSelected = nodesCache.get([notSelectedScenarioIds[index].id])[0];
+                        notSelected.originalGroup = notSelected.group;
+                        notSelected.group = "NOT_SELECTED";
+
+                        nodesCache.update(notSelected);
+                    });
+
+                    var selectedScenarioIds = nodesCache.get({
+                        filter: function (item) {
+                            return (item.scenarioId === selectedNode.scenarioId);
+                        }
+                    }).map(function(item) {
+                        item.selected = true;
+                        return item.id;
+                    });
+
+                    selectedScenarioIds.forEach(function (value, index) {
+                       var selected = nodesCache.get([selectedScenarioIds[index].id])[0];
+                       selected.group = selected.originalGroup;
+
+                       nodesCache.update(selected);
+                    });
+
+                    network.setData({nodes: nodesCache, edges: edgesCache});
+                    network.setSelection({nodes: selectedScenarioIds});
+                    network.redraw();
+                }
+
+            });
+
+            network.on("deselectNode", function (params) {
+                var allNodes = nodesCache.get();
+                for (var i = 0; i < allNodes.length; i++) {
+                    var resetNode = allNodes[i];
+                    if (resetNode.originalGroup != undefined) {
+                        resetNode.group = resetNode.originalGroup;
+                    }
+                    nodesCache.update(resetNode);
+                }
+            });
+
+
+            //deselectNode
+
         }
     </script>
 

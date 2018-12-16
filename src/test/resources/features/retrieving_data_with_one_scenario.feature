@@ -1,5 +1,5 @@
 Feature: data can be retrieved when there is a feature and a scenario
-  Scenario: client makes call to GET /api/steps
+  Scenario: client makes call to GET /api/steps with single scenario
     Given a feature file is loaded with a single scenario
     When the client calls /api/steps
     Then the client receives status code of 200

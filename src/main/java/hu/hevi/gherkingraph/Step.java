@@ -22,17 +22,32 @@ public class Step {
     private String label;
     @Getter
     private Type type;
+    @Getter
+    private Integer scenarioId;
 
-    public Step(String scenarioName, String type) {
+    /**
+     * When called with SCENARIO_GROUP, then scenarioId is set to this.id instead of supplied parameter
+     *
+     * @param scenarioName
+     * @param type
+     * @param scenarioId
+     */
+    public Step(String scenarioName, String type, Integer scenarioId) {
         this.id = Step.idSequence++;
         this.label = scenarioName;
         this.type = Type.valueOf(type.toUpperCase().trim());
+        if (SCENARIO_GROUP.equals(type)) {
+            this.scenarioId = this.id;
+        } else {
+            this.scenarioId = scenarioId;
+        }
     }
 
-    public Step(Messages.Step ofStep) {
+    public Step(Messages.Step ofStep, Integer scenarioId) {
         this.id = Step.idSequence++;
         this.label = ofStep.getKeyword().toUpperCase() + ofStep.getText();
         this.type = Type.valueOf(ofStep.getKeyword().toUpperCase().trim());
+        this.scenarioId = scenarioId;
     }
 
     public int getValue() {
